@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+  <h3 class="mb-4">餐厅及菜单管理</h3>
+
+  <!-- 优化后的搜索表单 -->
+  <div class="card shadow mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0"><i class="fas fa-filter mr-2"></i>高级筛选</h5>
+    </div>
+    <div class="card-body">
+      <form method="GET" id="searchForm">
+        <div class="form-row align-items-end">
+          <!-- 餐厅名称搜索 -->
+          <div class="form-group col-md-3">
+            <label for="restaurant"><i class="fas fa-store"></i> 餐厅名称</label>
+            <input type="text" class="form-control" id="restaurant" name="restaurant"
+                   placeholder="输入餐厅名称" value="{{ request.args.restaurant }}">
+          </div>
+          <!-- 菜品名称搜索 -->
+          <div class="form-group col-md-3">
+            <label for="item"><i class="fas fa-hamburger"></i> 菜品名称</label>
+            <input type="text" class="form-control" id="item" name="item"
+                   placeholder="输入菜品名称" value="{{ request.args.item }}">
+          </div>
+          <!-- 订单量筛选 -->
+          <div class="form-group col-md-2">
+            <label for="min_orders"><i class="fas fa-sort-amount-up"></i> 最少订单量</label>
+            <select class="form-control" id="min_orders" name="min_orders">
+              <option value="">不限</option>
+              <option value="1" {% if request.args.min_orders == '1' %}selected{% endif %}>1+</option>
+              <option value="2" {% if request.args.min_orders == '2' %}selected{% endif %}>2+</option>
+              <option value="3" {% if request.args.min_orders == '3' %}selected{% endif %}>3+</option>
+              <option value="4" {% if request.args.min_orders == '4' %}selected{% endif %}>4+</option>
+              <option value="5" {% if request.args.min_orders == '5' %}selected{% endif %}>5+</option>
+            </select>
+          </div>
+          <!-- 授权状态筛选 -->
+          <div class="form-group col-md-2">
+            <label for="auth_status"><i class="fas fa-check-circle"></i> 授权状态</label>
+            <select class="form-control" id="auth_status" name="auth_status">
+              <option value="">全部</option>
+              <option value="1" {% if request.args.auth_status == '1' %}selected{% endif %}>已授权</option>
+              <option value="0" {% if request.args.auth_status == '0' %}selected{% endif %}>未授权</option>
+            </select>
+          </div>
+          <!-- 操作按钮组 -->
+          <div class="form-group col-md-2">
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-search"></i> 搜索
+            </button>
+            <a href="{{ url_for('show_restaurants') }}" class="btn btn-secondary btn-block mt-2">
+              <i class="fas fa-redo"></i> 重置
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 响应式表格 -->
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered" id="dataTable">
+          <thead class="thead-dark">
+            <tr>
+              <th>餐厅信息</th>
+              <th>菜品信息</th>
+              <th>订单量</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set current_restaurant = {'id': None} %}
+            {% for item in restaurant_items %}
+              {% if current_restaurant.id != item.RestaurantId %}
+                <tr class="restaurant-row bg-light">
+                  <td colspan="4">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h5 class="mb-0">
+                          {{ item.RestaurantName }}
+                          <span class="badge badge-{{ 'success' if item.IsAuthorized else 'secondary' }} ml-2">
+                            {{ '已授权' if item.IsAuthorized else '未授权' }}
+                          </span>
+                        </h5>
+                        <small class="text-muted">
+                          <i class="fas fa-map-marker-alt"></i> {{ item.Address }}<br>
+                          <i class="fas fa-phone"></i> {{ item.PhoneNumber }}
+                        </small>
+                    </div>
+                  </td>
+                </tr>
+                {% if current_restaurant.update({'id': item.RestaurantId}) %} {% endif %}
+              {% endif %}
+              <tr class="item-row">
+                <td>{{ item.ItemName }} <small class="text-muted">(ID: {{ item.ItemId }})</small></td>
+                <td>
+                  <span class="nutri-badge badge-green">
+                    <i class="fas fa-leaf"></i> 营养值: {{ item.NutritionValue }}
+                  </span>
+                  <span class="nutri-badge badge-orange ml-2">
+                    <i class="fas fa-burn"></i> 热量: {{ item.Calories }} kcal
+                  </span>
+                  <span class="nutri-badge badge-blue ml-2">
+                    <i class="fas fa-dumbbell"></i> 蛋白质: {{ item.Proteins }}g
+                  </span>
+                </td>
+                <td>
+                  <span class="order-badge" data-count="{{ item.OrderCount }}">
+                    {{ item.OrderCount }}
+                  </span>
+                  {% if item.OrderCount > 100 %}
+                    <i class="fas fa-fire text-danger ml-2"></i>
+                  {% endif %}
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="4" class="text-center text-muted py-4">
+                  <i class="fas fa-utensils fa-3x mb-3"></i><br>
+                  未找到符合条件的餐厅或菜品
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.nutri-badge {
+  display: inline-block;
+  padding: 0.35em 0.8em;
+  border-radius: 1em;
+  font-size: 0.95em;
+  color: #fff;
+  margin-bottom: 0.2em;
+}
+.badge-green {
+  background: #43a047;
+}
+.badge-orange {
+  background: #ff9800;
+}
+.badge-blue {
+  background: #1976d2;
+}
+.order-badge {
+  display: inline-block;
+  min-width: 2.5em;
+  padding: 0.3em;
+  border-radius: 50%;
+  background: #6c757d;
+  color: white;
+  text-align: center;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>南开大学 - 用户注册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --nk-purple: #6a1b9a;
+            --nk-blue: #002060;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--nk-purple) 0%, var(--nk-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: white;
+        }
+
+        .register-container {
+            background: rgba(255,255,255,0.1);
+            padding: 3rem 4rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .nk-logo {
+            width: 80px;
+            margin: 0 auto 2rem;
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: var(--nk-purple);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #4a148c;
+            transform: translateY(-2px);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .auth-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .auth-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* 错误提示样式 */
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 51, 51, 0.15);
+            border: 1px solid #ff3333;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <img src="https://www.nankai.edu.cn/_upload/article/images/77/1f/a7852bfa49c3bdea0f4564630e66/c658ec37-5315-4c7c-b5d5-aee3e3e570d3.jpg" 
+             alt="南开校徽" 
+             class="nk-logo">
+        <h2>校园统一身份注册</h2>
+
+        <!-- 错误提示 -->
+        {% if error %}
+        <div class="alert">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- 注册表单 -->
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" 
+                       name="name" 
+                       placeholder="真实姓名"
+                       pattern="[\u4e00-\u9fa5]{2,10}" 
+                       title="请输入2-10位中文姓名" 
+                       required>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" 
+                       name="username" 
+                       placeholder="学工号"
+                       pattern="[0-9]{10}" 
+                       title="请输入10位数字学工号" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" 
+                       name="password" 
+                       placeholder="密码（至少8位）"
+                       minlength="8" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" 
+                       name="confirm_password" 
+                       placeholder="确认密码"
+                       minlength="8" 
+                       required>
+            </div>
+
+            <div class="form-group">
+                <input type="email" 
+                       name="email" 
+                       placeholder="学校邮箱（@mail.nankai.edu.cn）"
+                       pattern=".+@mail.nankai\.edu\.cn" 
+                       title="请使用南开大学邮箱">
+            </div>
+
+            <div class="form-group">
+                <input type="tel" 
+                       name="phone" 
+                       placeholder="联系电话"
+                       pattern="[0-9]{11}" 
+                       title="请输入11位手机号码">
+            </div>
+
+            <button type="submit">
+                <i class="fas fa-user-plus"></i> 立即注册
+            </button>
+        </form>
+
+        <div class="auth-links">
+            <a href="{{ url_for('login') }}">
+                <i class="fas fa-sign-in-alt"></i> 已有账户？立即登录
+            </a>
+        </div>
+    </div>
+
+    <!-- 注册成功跳转逻辑 -->
+    {% if registration_success %}
+    <script>
+        setTimeout(() => {
+            window.location.href = "{{ url_for('login') }}";
+        }, 1500); // 1.5秒后跳转
+    </script>
+    {% endif %}
+</body>
+</html>

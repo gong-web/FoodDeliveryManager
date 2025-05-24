@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>司机信息</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>联系方式</th>
+            <th>驾照</th>
+            <th>评分</th>
+            <th>入职时间</th>
+            <th>车辆</th>
+            <th>完成订单</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for d in drivers %}
+        <tr>
+            <td>{{ d.Name }}</td>
+            <td>{{ d.ContactNumber }}</td>
+            <td>{{ d.LicenseNumber }}</td>
+            <td>{{ d.Rating }}</td>
+            <td>{{ d.HiringDate }}</td>
+            <td>{{ d.Vehicles }}</td>
+            <td>{{ d.CompletedOrders }}</td>
+            <td>
+                <a href="{{ url_for('update_driver', driver_id=d.DriverId) }}" class="btn btn-warning btn-sm">更新</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

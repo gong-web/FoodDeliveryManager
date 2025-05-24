@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="mb-4">用户信息管理</h3>
+<table class="table table-hover table-bordered shadow-sm table-light">
+    <thead class="table-light">
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>地址</th>
+            <th>性别</th>
+            <th>邮箱</th>
+            <th>联系方式</th>
+            <th>身份</th>
+            <th>角色详情</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in persons %}
+        <tr>
+            <td>{{ p.PersonId }}</td>
+            <td>{{ p.Name }}</td>
+            <td>{{ p.Address }}</td>
+            <td>{{ '男' if p.Gender == '1' else '女' }}</td>
+            <td><a href="mailto:{{ p.Email }}">{{ p.Email }}</a></td>
+            <td>{{ p.ContactNumber }}</td>
+            <td><span class="badge bg-primary">{{ p.UserType }}</span></td>
+            <td>{{ p.RoleDetail }}</td>
+            <td>
+                <form action="{{ url_for('delete_person', person_id=p.PersonId) }}" method="post" 
+                      onsubmit="return confirm('确认删除 {{ p.Name }} 的所有信息？此操作不可恢复！')">
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="bi bi-trash"></i> 删除
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

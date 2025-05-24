@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>南开大学 - 用户登录</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --nk-purple: #6a1b9a;
+            --nk-blue: #002060;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--nk-purple) 0%, var(--nk-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Helvetica Neue', sans-serif;
+            color: white;
+        }
+
+        .login-container {
+            background: rgba(255,255,255,0.1);
+            padding: 3rem 4rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 450px;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .nk-logo {
+            width: 80px;
+            margin: 0 auto 2rem;
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: var(--nk-purple);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #4a148c;
+            transform: translateY(-2px);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .auth-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .auth-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="https://www.nankai.edu.cn/_upload/article/images/77/1f/a7852bfa49c3bdea0f4564630e66/c658ec37-5315-4c7c-b5d5-aee3e3e570d3.jpg" 
+             alt="南开校徽" 
+             class="nk-logo">
+        <h2>校园统一认证登录</h2>
+        
+        <!-- 登录表单 -->
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" 
+                       name="username" 
+                       placeholder="学工号"
+                       pattern="[0-9]{10}" 
+                       title="请输入10位数字学工号" 
+                       required>
+            </div>
+            <div class="form-group">
+                <input type="password" 
+                       name="password" 
+                       placeholder="密码" 
+                       minlength="8"
+                       required>
+            </div>
+            <button type="submit">
+                <i class="fas fa-sign-in-alt"></i> 登录
+            </button>
+        </form>
+
+        <!-- 辅助链接 -->
+        <div class="auth-links">
+            <a href="{{ url_for('register') }}">
+                <i class="fas fa-user-plus"></i> 没有账户？立即注册
+            </a>
+            <br>
+            <a href="#" style="margin-top: 1rem; display: inline-block;">
+                <i class="fas fa-lock"></i> 忘记密码？
+            </a>
+        </div>
+    </div>
+
+    <!-- 登录后自动跳转逻辑 -->
+    {% if login_success %}
+    <script>
+        setTimeout(() => {
+            window.location.href = "{{ url_for('index') }}";
+        }, 1000); // 1秒后跳转
+    </script>
+    {% endif %}
+</body>
+</html>

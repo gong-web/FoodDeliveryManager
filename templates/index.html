@@ -1,0 +1,160 @@
+<style>
+    .dashboard-container {
+        /* 使用明亮的渐变背景，并将文字颜色设置为深色 */
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        padding: 2rem;
+        color: #333;
+        font-family: 'Helvetica Neue', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .logout-btn {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        background: rgba(255,255,255,0.8);
+        padding: 12px 25px;
+        border-radius: 30px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 999;
+        border: 1px solid #ccc;
+    }
+    .logout-btn:hover {
+        background: rgba(255,255,255,1);
+        transform: translateY(-2px);
+    }
+    
+    .header-section {
+        position: relative;
+        margin-bottom: 3rem;
+    }
+    
+    .nk-logo {
+        width: 80px;
+        margin-bottom: 1rem;
+    }
+    
+    .platform-title {
+        font-size: 2.2rem;
+        letter-spacing: 1.5px;
+        margin: 1rem 0;
+    }
+    
+    .platform-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 3rem auto;
+        text-align: center;
+    }
+    
+    .feature-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border: 1px solid #ddd;
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-icon {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    .card-description {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        line-height: 1.6;
+    }
+    
+    .university-footer {
+        margin-top: 3rem;
+        opacity: 0.8;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+</style>
+    
+    <div class="dashboard-container">
+        <a href="{{ url_for('logout') }}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>安全退出</span>
+        </a>
+        <div class="header-section">
+            <img src="https://www.nankai.edu.cn/_upload/article/images/77/1f/a7852bfa49c3bdea0f4564630e66/c658ec37-5315-4c7c-b5d5-aee3e3e570d3.jpg" alt="南开校徽" class="nk-logo">
+            <h1 class="platform-title">南开大学餐饮配送系统数据平台</h1>
+            <p class="platform-subtitle">以数据驱动校园餐饮服务创新，构建智慧化餐饮管理生态系统</p>
+        </div>
+    
+        <div class="feature-grid">
+            <a href="/persons" class="feature-card">
+                <i class="card-icon fas fa-chart-pie"></i>
+                <h3 class="card-title">数据看板</h3>
+                <p class="card-description">内部包括人员信息，包括编号、姓名、地址、性别、邮箱、联系方式、身份、角色详情</p>
+            </a>
+        
+            <a href="/orders" class="feature-card">
+                <i class="card-icon fas fa-clipboard-list"></i>
+                <h3 class="card-title">订单管理</h3>
+                <p class="card-description">可以看到数据库中的所有订单，包括订单号、下单人、地址、金额、配送员、时间、菜品数量、详情</p>
+            </a>
+        
+            <a href="/drivers" class="feature-card">
+                <i class="card-icon fas fa-truck-moving"></i>
+                <h3 class="card-title">司机管理</h3>
+                <p class="card-description">包括校园配送司机的信息，包括姓名、联系方式、驾照、评分、入职时间、车辆、完成订单</p>
+            </a>
+
+            <a href="/restaurants" class="feature-card">
+                <i class="card-icon fas fa-truck-moving"></i>
+                <h3 class="card-title">授权餐厅</h3>
+                <p class="card-description">可以查看外卖订单授权可以进行售卖食物的餐厅</p>
+            </a>
+        
+            <a href="/analytics" class="feature-card">
+                <i class="card-icon fas fa-brain"></i>
+                <h3 class="card-title">智能分析</h3>
+                <p class="card-description">基于统计数据的一些可能的分析</p>
+            </a>
+                <a href="/create" class="feature-card">
+                <i class="card-icon fas fa-plus-circle"></i>
+                <h3 class="card-title">添加订单</h3>
+                <p class="card-description">快速新建一份新的配送订单，填写客户、餐厅、菜品等信息</p>
+            </a>
+        </div>
+    
+        <div class="university-footer">
+            <p>Nankai University · 1919</p>
+            <p>南開大学 · 智慧校园餐饮服务中心</p>
+        </div>
+    </div>

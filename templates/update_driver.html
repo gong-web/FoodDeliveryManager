@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>更新司机信息</h3>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name">姓名</label>
+        <input type="text" name="name" class="form-control" value="{{ driver.Name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="contact">联系方式</label>
+        <input type="text" name="contact" class="form-control" value="{{ driver.ContactNumber }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="license">驾照</label>
+        <input type="text" name="license" class="form-control" value="{{ driver.LicenseNumber }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="rating">评分</label>
+        <input type="number" step="0.1" name="rating" class="form-control" value="{{ driver.Rating }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="hiring_date">入职时间</label>
+        <input type="date" name="hiring_date" class="form-control" value="{{ driver.HiringDate|string }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="vehicles">车辆</label>
+        <input type="text" name="vehicles" class="form-control" value="{{ driver.Vehicles }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="completed_orders">完成订单</label>
+        <input type="number" name="completed_orders" class="form-control" value="{{ driver.CompletedOrders }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">提交更新</button>
+</form>
+{% endblock %}

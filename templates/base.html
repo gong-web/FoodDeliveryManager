@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>南开大学餐饮配送系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- 添加 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 修改为明亮样式 */
+        .navbar {
+            padding: 0.8rem 1rem;
+            background: #f8f9fa; /* 浅色背景 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: #343a40; /* 深色文字 */
+        }
+        .navbar-nav .nav-link {
+            color: #343a40;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0056b3;
+        }
+        /* 退出按钮样式 */
+        .logout-btn {
+            background: #17a2b8;
+            color: white !important;
+            border-radius: 20px;
+            padding: 0.5rem 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .logout-btn {
+                margin-top: 0.5rem;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="https://www.nankai.edu.cn/_upload/article/images/77/1f/a7852bfa49c3bdea0f4564630e66/c658ec37-5315-4c7c-b5d5-aee3e3e570d3.jpg" alt="校徽" width="30" class="me-2">
+                校园配送系统
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/persons"><i class="fas fa-users me-1"></i>用户管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/orders"><i class="fas fa-list-alt me-1"></i>订单列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/drivers"><i class="fas fa-truck me-1"></i>司机信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/restaurants"><i class="fas fa-utensils me-1"></i>餐厅信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analytics"><i class="fas fa-chart-line me-1"></i>数据分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link new-order-btn" href="{{ url_for('create_order') }}">
+                            <i class="fas fa-plus-circle me-1"></i>新建订单
+                        </a>
+                    </li>
+                </ul>
+                <!-- 退出按钮 -->
+                <div class="d-flex">
+                    <a href="{{ url_for('logout') }}" class="nav-link logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>安全退出</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="text-center mt-5 py-3 border-top">
+        南开大学 · 智慧校园餐饮服务中心 © 2025<br>
+        <small class="text-muted">v2.1.0 | 津ICP备12345678号</small>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

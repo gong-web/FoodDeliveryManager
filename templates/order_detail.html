@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>订单详情：#{{ order.OrderId }}</h3>
+<ul class="list-group mb-3">
+    <li class="list-group-item"><strong>客户：</strong>{{ order.CustomerName }} ({{ order.ContactNumber }})</li>
+    <li class="list-group-item"><strong>地址：</strong>{{ order.LocationName }}，{{ order.Address }}</li>
+    <li class="list-group-item"><strong>配送员：</strong>{{ order.DriverName or '未分配' }}</li>
+    <li class="list-group-item"><strong>费用：</strong>¥{{ order.TotalPrice }}（配送费 ¥{{ order.DeliveryCharges }}）</li>
+    <li class="list-group-item"><strong>时间：</strong>{{ order.DeliveryTime }}</li>
+</ul>
+
+<h5>包含菜品</h5>
+<table class="table table-hover">
+    <thead><tr><th>菜品</th><th>营养</th><th>热量</th><th>蛋白质</th><th>餐厅</th><th>数量</th></tr></thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.ItemName }}</td>
+            <td>{{ item.NutritionValue }}</td>
+            <td>{{ item.Calories }} kcal</td>
+            <td>{{ item.Proteins }} g</td>
+            <td>{{ item.RestaurantName }}</td>
+            <td>{{ item.Quantity }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

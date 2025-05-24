@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}创建新订单{% endblock %}
+
+{% block content %}
+<div class="order-container">
+  <h2 class="section-title">🍔 新建订单</h2>
+  
+  {% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" class="order-form">
+    <!-- 客户信息 -->
+    <div class="form-card">
+      <h3>👤 客户信息</h3>
+      <div class="form-group">
+        <select class="form-control" name="person_id" required>
+          <option value="">-- 选择客户 --</option>
+          {% for person in persons %}
+          <option value="{{ person.PersonId }}">{{ person.Name }} ({{ person.ContactNumber }})</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- 司机信息 -->
+    <div class="form-card">
+      <h3>🚗 司机信息</h3>
+      <div class="form-group">
+        <select class="form-control" name="driver_id" required>
+          <option value="" disabled selected>-- 选择司机 --</option>
+          {% for driver in drivers %}
+          <option value="{{ driver.DriverId }}">{{ driver.DriverName }} ★{{ driver.Rating|round(1) }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    
+    <!-- 餐厅选择 -->
+    <div class="form-card">
+      <h3>🍽️ 餐厅选择</h3>
+      <div class="form-group">
+        <select class="form-control" name="restaurant_id" required>
+          <option value="">-- 选择餐厅 --</option>
+          {% for res in restaurants %}
+          <option value="{{ res.RestaurantId }}">{{ res.Name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- 配送信息 -->
+    <div class="form-card">
+      <h3>⏰ 配送信息</h3>
+      <div class="row g-3">
+        <div class="col-md-2">
+          <label>配送时间</label>
+          <input type="datetime-local" class="form-control"
+                 name="delivery_time"
+                 value="{{ now.strftime('%Y-%m-%dT%H:%M') }}"
+                 max="{{ now.strftime('%Y-%m-%dT%H:%M') }}">
+        </div>
+        <div class="col-md-2">
+          <label>配送费用</label>
+          <div class="input-group">
+            <span class="input-group-text">¥</span>
+            <input type="number" class="form-control" 
+                   name="delivery_charges" value="8" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 商品选择 -->
+<!-- 商品选择部分 -->
+  <div class="form-card">
+    <h3>🍟 选择商品</h3>
+    <div id="items-container" class="row g-3">
+      {% for item in items %}
+      <div class="col-md-2">
+        <div class="input-group mb-2">
+          <span class="input-group-text">
+            {{ item.Name }}<br>
+            <small style="color:#888;">（{{ item.RestaurantName }}）</small>
+          </span>
+          <input type="number" class="form-control" name="item_{{ item.ItemRestaurantMappingId }}" value="0" min="0" placeholder="请输入数量">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+      <button type="button" class="btn btn-secondary mt-3" onclick="addItemField()">
+        ➕ 添加商品
+      </button>
+    </div>
+
+    <!-- 提交区域 -->
+    <div class="form-card total-card">
+      <div class="row g-3">
+        <div class="col-md-2">
+          <label>订单总额</label>
+        <div class="input-group">
+            <span class="input-group-text">¥</span>
+            <input type="number" class="form-control" 
+                name="total_price"
+                placeholder="请输入订单总额">
+        </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" class="btn btn-primary w-100">
+            🚀 提交订单
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+.order-container {
+  max-width: 1800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+}
+.form-card h3 {
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
+.total-card {
+  background: #f8f9fa;
+  border-color: #3498db;
+}
+.btn-primary {
+  background: #3498db;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+.input-group-text {
+  background: #f8f9fa;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// 添加商品字段
+let itemCount = 1;
+function addItemField() {
+  const container = document.getElementById('items-container');
+  const newItem = document.createElement('div');
+  newItem.className = 'col-md-2';
+  newItem.innerHTML = `
+    <div class="input-group">
+      <select class="form-select" name="items" required>
+        <option value="">-- 选择商品 --</option>
+        {% for item in items %}
+        <option value="{{ item.ItemId }}">{{ item.Name }}</option>
+        {% endfor %}
+      </select>
+    </div>`;
+  container.appendChild(newItem);
+  itemCount++;
+}
+</script>
+{% endblock %}
