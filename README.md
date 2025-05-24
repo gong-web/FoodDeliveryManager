@@ -1,7 +1,7 @@
 # FoodDeliverySystem
 2025数据库系统大作业
 
-### 实体关系设想
+## 实体关系设想
 
 1. **用户实体**（Person）与**订单实体**（Order）：一对多关系
    （一个用户可创建多个订单，一个订单仅属于一个用户）
@@ -20,7 +20,7 @@
 8. **餐厅菜品映射实体**（ItemRestaurantMapping）与**菜品主数据实体**（ItemMaster）：多对多关系
    （一个菜品映射对应一个基础菜品，一个基础菜品可出现在多个餐厅的映射中）
 
-### ER图
+## ER图
 
 ```mermaid
 erDiagram
@@ -129,7 +129,7 @@ erDiagram
     }
 ```
 
-### 实现内容
+## 实现内容
 
 1. **用户注册**（限制使用真实姓名、真实邮箱、真实学号）
 2. **用户登录**（仅限user表中存在的信息）
@@ -148,7 +148,7 @@ erDiagram
 
 10. dashboard便捷**跳转**
 
-### 实体关系模式（E/R Approach 格式）
+## 实体关系模式（E/R Approach 格式）
 
 #### **1. Person**
 
@@ -229,7 +229,7 @@ Faculty ( <u>PersonId</u> (参照 Person.PersonId), College, HighestQualificatio
 - **主键**：`PersonId`
 - **继承关系**：`Person` 的子类
 
-### 使用方式
+## 使用方式
 
 克隆仓库
 
