@@ -1,5 +1,5 @@
-# FoodDeliverySystem
-2025数据库系统大作业
+# FoodDeliveryManager
+NKU2025数据库系统大作业
 
 ## 实体关系设想
 
