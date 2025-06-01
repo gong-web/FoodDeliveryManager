@@ -30,6 +30,7 @@ erDiagram
     Person ||--o{ Order : "FK_Order_Person"
     Student ||--o{ Driver : "StudentId"
     Driver ||--o{ Vehicle : "FK_Vehicle_Driver"
+    Driver ||--o{ Order : "FK_Order_Driver"  -- 新增的关联关系
     Order ||--o{ OrderItems : "FK_OI_Order"
     Order }|--|| Location : "FK_Order_Location"
     ItemRestaurantMapping ||--o{ OrderItems : "FK_OI_IRM"
@@ -68,7 +69,7 @@ erDiagram
     Order {
         INT OrderId PK
         INT PersonId FK
-        INT DriverId FK
+        INT DriverId FK  -- 关联Driver表的外键
         INT LocationId FK
         INT DeliveryCharges
         DATETIME DeliveryTime
